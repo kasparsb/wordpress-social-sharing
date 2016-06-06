@@ -1,0 +1,233 @@
+@keyframes socialsharing-tada {
+  from {
+    transform: scale3d(1, 1, 1);
+  }
+  10%,
+  20% {
+    transform: scale3d(0.9, 0.9, 0.9) rotate3d(0, 0, 1, -3deg);
+  }
+  30%,
+  50%,
+  70%,
+  90% {
+    transform: scale3d(1.1, 1.1, 1.1) rotate3d(0, 0, 1, 3deg);
+  }
+  40%,
+  60%,
+  80% {
+    transform: scale3d(1.1, 1.1, 1.1) rotate3d(0, 0, 1, -3deg);
+  }
+  to {
+    transform: scale3d(1, 1, 1);
+  }
+}
+.socialsharing {
+  overflow: hidden;
+  /**
+     * Sharing count field
+     */
+  /**
+     * Social sharing button
+     */
+}
+.socialsharing__heading {
+  display: none;
+  margin: 0 0 4px !important;
+  font-size: 0.8rem !important;
+  font-weight: bold !important;
+}
+.socialsharing__item {
+  display: block;
+  cursor: pointer;
+  height: 40px;
+  float: left;
+  margin-right: 2px;
+}
+.socialsharing__item:last-child {
+  margin-right: 0;
+}
+.socialsharing__item:hover .socialsharing__ico-img {
+  animation-duration: 1s;
+  animation-fill-mode: both;
+  animation-name: socialsharing-tada;
+}
+.socialsharing__ico,
+.socialsharing__label {
+  height: 40px;
+  line-height: 40px;
+}
+.socialsharing__ico {
+  display: none;
+  width: 22px;
+  position: relative;
+  margin: 0 auto;
+}
+.socialsharing__ico-img {
+  position: absolute;
+  display: block !important;
+  width: 100%;
+  height: auto;
+  top: 9px;
+  left: 0;
+}
+.socialsharing__label {
+  display: none;
+  line-height: 42px;
+  color: #fff;
+  font-size: 0.7rem;
+}
+.socialsharing__label:hover {
+  color: #fff;
+}
+.socialsharing__value {
+  display: block;
+  height: 40px;
+  line-height: 40px;
+  font-size: 1.1rem;
+  font-weight: bold;
+  padding: 0 12px;
+  border: 1px solid #d4d4d4;
+}
+.socialsharing__count {
+  display: none;
+}
+.socialsharing__sharing {
+  width: 80px;
+  position: relative;
+  color: #fff;
+  padding: 0 8px;
+  transition: all 300ms;
+}
+.socialsharing__facebook {
+  background: #3b5999;
+}
+.socialsharing__facebook:hover {
+  background-color: #2d4474;
+}
+.socialsharing__twitter {
+  background: #55acef;
+}
+.socialsharing__twitter:hover {
+  background-color: #2d4474;
+}
+.socialsharing__draugiem {
+  background: #ff6600;
+}
+.socialsharing__draugiem:hover {
+  background-color: #cc5200;
+}
+.socialsharing__email {
+  background: #727272;
+}
+.socialsharing__email:hover {
+  background-color: #595959;
+}
+.socialsharing--sharingcount .socialsharing__count {
+  display: block;
+}
+.socialsharing--icos .socialsharing__ico {
+  display: block;
+}
+.socialsharing--labels .socialsharing__label {
+  float: left;
+  display: block;
+}
+.socialsharing--labels .socialsharing__sharing {
+  width: auto;
+}
+.socialsharing--labels .socialsharing__ico {
+  margin-right: 8px;
+  float: left;
+}
+.socialsharing--icoslabels .socialsharing__twitter .socialsharing__ico {
+  margin-right: 5px;
+}
+.socialsharing--icoslabels .socialsharing__facebook .socialsharing__ico {
+  margin-right: 0;
+}
+.socialsharing--hastitle .socialsharing__heading {
+  display: block;
+}
+.socialsharing--size-large .socialsharing__item {
+  height: 80px;
+}
+.socialsharing--size-large .socialsharing__ico,
+.socialsharing--size-large .socialsharing__label {
+  height: 80px;
+  line-height: 80px;
+}
+.socialsharing--size-large .socialsharing__ico {
+  width: 34px;
+}
+.socialsharing--size-large .socialsharing__ico-img {
+  top: 23px;
+}
+.socialsharing--size-large.socialsharing--icoslabels .socialsharing__sharing {
+  padding: 0;
+  width: 80px;
+}
+.socialsharing--size-large.socialsharing--icoslabels .socialsharing__ico,
+.socialsharing--size-large.socialsharing--icoslabels .socialsharing__label {
+  float: none;
+}
+.socialsharing--size-large.socialsharing--icoslabels .socialsharing__ico {
+  height: 53.33333333px;
+  line-height: 53.33333333px;
+}
+.socialsharing--size-large.socialsharing--icoslabels .socialsharing__label {
+  height: 26.66666667px;
+  line-height: 26.66666667px;
+  text-align: center;
+}
+.socialsharing--size-large.socialsharing--icoslabels .socialsharing__ico {
+  margin: 0 auto;
+  width: 34px;
+}
+.socialsharing--size-large.socialsharing--icoslabels .socialsharing__ico-img {
+  top: 9.66666667px;
+}
+.socialsharing--size-large.socialsharing--icoslabels .socialsharing__facebook .socialsharing__ico,
+.socialsharing--size-large.socialsharing--icoslabels .socialsharing__twitter .socialsharing__ico {
+  margin-right: auto;
+}
+@media screen and (max-width: 600px) {
+  .socialsharing__sharing,
+  .socialsharing--icoslabels .socialsharing__sharing {
+    width: 70px;
+  }
+  .socialsharing--icoslabels .socialsharing__label {
+    display: none;
+  }
+  .socialsharing--icoslabels .socialsharing__ico {
+    float: none;
+    margin: 0 auto;
+  }
+  .socialsharing--icoslabels .socialsharing__facebook .socialsharing__ico,
+  .socialsharing--icoslabels .socialsharing__twitter .socialsharing__ico {
+    margin-right: auto;
+  }
+  .socialsharing--size-large.socialsharing--icoslabels .socialsharing__sharing {
+    width: 80px;
+  }
+  .socialsharing--size-large.socialsharing--icoslabels .socialsharing__label {
+    display: block;
+  }
+}
+@media screen and (max-width: 500px) {
+  .socialsharing__sharing,
+  .socialsharing--icoslabels .socialsharing__sharing {
+    width: 50px;
+  }
+  .socialsharing--size-large.socialsharing--icoslabels .socialsharing__sharing {
+    width: 80px;
+  }
+}
+@media screen and (max-width: 400px) {
+  .socialsharing__sharing,
+  .socialsharing--icoslabels .socialsharing__sharing {
+    width: 40px;
+  }
+  .socialsharing--size-large.socialsharing--icoslabels .socialsharing__sharing {
+    width: 80px;
+  }
+}
