@@ -1,0 +1,263 @@
+.socialsharing {
+    overflow: hidden;
+
+    @height: 40px;
+    @icoWidth: 22px;
+
+    @heightLarge: 80px;
+    @icoWidthLarge: 34px;
+
+    &__heading {
+        display: none;
+        margin: 0 0 4px !important;
+        font-size: 0.8rem !important;
+        font-weight: bold !important;
+    }
+
+    &__item {
+        display: block;
+        cursor: pointer;
+        height: @height;
+        float: left;
+        margin-right: 2px;
+
+        &:last-child {
+            margin-right: 0;
+        }
+    }
+    &__item:hover &__ico-img {
+        animation-duration: 1s;
+        animation-fill-mode: both;
+        animation-name: socialsharing-tada;
+    }
+
+    &__ico, &__label {
+        height: @height;
+        line-height: @height;
+    }
+
+    &__ico {
+        display: none;
+        width: @icoWidth;
+        position: relative;
+        margin: 0 auto;
+
+        &-img {
+            position: absolute;
+            display: block !important;
+            width: 100%;
+            height: auto;
+            top: (@height - @icoWidth)/2;
+            left: 0;
+        }
+    }
+
+    &__label {
+        display: none;
+        line-height: @height + 2px;
+        color: #fff;
+        font-size: 0.7rem;
+        &:hover {
+            color: #fff;
+        }
+    }
+
+    &__value {
+        display: block;
+        height: @height;
+        line-height: @height;
+        font-size: 1.1rem;
+        font-weight: bold;
+        padding: 0 12px;
+        border: 1px solid #d4d4d4;
+    }
+
+    /**
+     * Sharing count field
+     */
+    &__count {
+        display: none;
+    }
+
+    /**
+     * Social sharing button
+     */
+    &__sharing {
+        // Fiskēts platums, ja būs labels, tad platums tiks uzlikts auto
+        width: 80px;
+        position: relative;
+        color: #fff;
+        padding: 0 8px;
+        transition: all 300ms;
+    }
+
+    @facebookColor: #3b5999;
+    @twitterColor: #55acef;
+    @draugiemColor: #ff6600;
+    @emailColor: #727272;
+
+    &__facebook {
+        background: @facebookColor;
+        &:hover {
+            background-color: darken(@facebookColor, 10%);
+        }
+    }
+
+    &__twitter {
+        background: @twitterColor;
+        &:hover {
+            background-color: darken(@facebookColor, 10%);
+        }
+    }
+    
+    &__draugiem {
+        background: @draugiemColor;
+        &:hover {
+            background-color: darken(@draugiemColor, 10%);
+        }
+    }
+    
+    &__email {
+        background: @emailColor;
+        &:hover {
+            background-color: darken(@emailColor, 10%);
+        }
+    }
+
+    // Show sharing count
+    &--sharingcount &__count {
+        display: block;
+    }
+
+    // Show icons
+    &--icos &__ico {
+        display: block;
+    }
+
+    // Show labels
+    &--labels &__label {
+        float: left;
+        display: block;
+    }
+    &--labels &__sharing {
+        width: auto;
+    }
+    &--labels &__ico {
+        float: left;
+        margin-right: 8px;
+        float: left;
+    }
+
+    // Ja ir ikonas un labels, tad piekoriģējam margin-right
+    &--icoslabels &__twitter &__ico {
+        margin-right: 5px;
+    }
+    &--icoslabels &__facebook &__ico {
+        margin-right: 0;
+    }
+
+    // Has title
+    &--hastitle &__heading {
+        display: block;
+    }
+
+    // Size large
+    &--size-large &__item {
+        height: @heightLarge;
+    }
+    &--size-large &__ico, 
+    &--size-large &__label {
+        height: @heightLarge;
+        line-height: @heightLarge;
+    }
+    &--size-large &__ico {
+        width: @icoWidthLarge;
+        &-img {
+            top: (@heightLarge - @icoWidthLarge)/2;
+        }
+    }
+    .socialsharing--size-large.socialsharing--icoslabels &__sharing {
+        padding: 0;
+        width: 80px;
+    }
+    .socialsharing--size-large.socialsharing--icoslabels &__ico,
+    .socialsharing--size-large.socialsharing--icoslabels &__label {
+        float: none;
+    }
+    .socialsharing--size-large.socialsharing--icoslabels &__ico {
+        height: (@heightLarge / 3)*2;
+        line-height: (@heightLarge / 3)*2;
+    }
+    .socialsharing--size-large.socialsharing--icoslabels &__label {
+        height: @heightLarge / 3;
+        line-height: @heightLarge / 3;
+        text-align: center;
+    }
+    .socialsharing--size-large.socialsharing--icoslabels &__ico {
+        margin: 0 auto;
+        width: @icoWidthLarge;
+        &-img {
+            top: (((@heightLarge / 3)*2) - @icoWidthLarge)/2;
+        }
+    }
+    .socialsharing--size-large.socialsharing--icoslabels &__facebook &__ico,
+    .socialsharing--size-large.socialsharing--icoslabels &__twitter &__ico {
+        margin-right: auto;
+    }
+}
+
+@media screen and (max-width: 600px) {
+    .socialsharing {
+        &__sharing,
+        &--icoslabels &__sharing {
+            width: 70px;
+        }
+
+        &--icoslabels &__label {
+            display: none;
+        }
+        &--icoslabels &__ico {
+            float: none;
+            margin: 0 auto;
+        }
+
+        &--icoslabels &__facebook &__ico,
+        &--icoslabels &__twitter &__ico {
+            margin-right: auto;
+        }
+
+
+        .socialsharing--size-large.socialsharing--icoslabels &__sharing {
+            width: 80px;
+        }
+        .socialsharing--size-large.socialsharing--icoslabels &__label {
+            display: block;
+        }
+    }
+}
+
+@media screen and (max-width: 500px) {
+    .socialsharing {
+        &__sharing,
+        &--icoslabels &__sharing {
+            width: 50px;
+        }
+
+        .socialsharing--size-large.socialsharing--icoslabels &__sharing {
+            width: 80px;
+        }
+    }
+}
+
+@media screen and (max-width: 400px) {
+    .socialsharing {
+        &__sharing,
+        &--icoslabels &__sharing {
+            width: 40px;
+        }
+
+        .socialsharing--size-large.socialsharing--icoslabels &__sharing {
+            width: 80px;
+        }
+    }
+}
