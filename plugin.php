@@ -50,12 +50,18 @@ class Plugin extends Base {
      */
     public function shortcode_sharing($atts) {
         $atts = shortcode_atts([
-            'title' => 'Iesaki šo rakstu citiem',
-            'size' => 'normal',
             'sharing_count' => null,
+
+            'title' => 'Iesaki šo rakstu citiem',
+            'width' => 'auto', // 100%
+            
+            'show_sharing_count' => true,
             'show_labels' => true,
             'show_icons' => true,
-            'show_sharing_count' => true,
+
+            'label_position' => 'inline', // bottom
+            'icon_size' => 'normal'
+            
         ], $atts, 'socialsharing');
 
         foreach (['show_labels', 'show_icons', 'show_sharing_count'] as $bool_param) {
@@ -84,9 +90,14 @@ class Plugin extends Base {
     public function shortcode_follow($atts) {
         $atts = shortcode_atts([
             'title' => '',
-            'size' => 'normal',
+            'width' => 'auto', // 100%
+            
             'show_labels' => true,
-            'show_icons' => true
+            'show_icons' => true,
+            
+            'label_position' => 'inline', // bottom
+            'icon_size' => 'normal'
+
         ], $atts, 'socialfollow');
 
         foreach (['show_labels', 'show_icons'] as $bool_param) {

@@ -17,9 +17,9 @@ var link = encodeURIComponent(unformatted.link);
 //overrideShareVariables();
 
 function setEvents() {
-    $(document).on('click', '.socialsharing__sharing', function(ev){
+    $(document).on('click', '.socialsharing__share', function(ev){
         // Ja ir metode share, tad pārtraucam uzlikot href
-        if ($(this).parents('socialsharing').hasClass('.socialsharing--share')) {
+        if ($(this).parents('.socialsharing').hasClass('socialsharing--share')) {
             ev.preventDefault();
 
             var t = $(this).data('type');

@@ -4,11 +4,20 @@ $class = ['socialsharing', 'socialsharing--'.$method];
 if ($show_icons) {
     $class[] = 'socialsharing--icos';
 }
+else {
+    $class[] = 'socialsharing--noicos';
+}
+if ($show_icons && $icon_size) {
+    $class[] = 'socialsharing--icosize-'.$icon_size;
+}
 if ($show_labels) {
     $class[] = 'socialsharing--labels';
 }
-if ($show_icons && $show_labels) {
-    $class[] = 'socialsharing--icoslabels';
+else {
+    $class[] = 'socialsharing--nolabels';
+}
+if ($show_labels && $label_position) {
+    $class[] = 'socialsharing--labelposition-'.$label_position;
 }
 if ($show_sharing_count && $sharing_count) {
     $class[] = 'socialsharing--sharingcount';
@@ -16,9 +25,21 @@ if ($show_sharing_count && $sharing_count) {
 if ($title) {
     $class[] = 'socialsharing--hastitle';
 }
-if ($size) {
-    $class[] = 'socialsharing--size-'.$size;
+// Definēts platums. Visas pogas aizņems pieejamo platumu
+if ($width) {
+    if ($width != 'auto') {
+        $class[] = 'socialsharing--fullwidth';
+    }
 }
+
+// Share pogu skaits
+$share_items_count = $method == 'share' ? 4 : 3;
+
+$share_item_class = [
+    'socialsharing__share-w',
+    'socialsharing__share-w--width-'.round(100 / $share_items_count)
+];
+
 
 $link_attributes = [
     'facebook' => '',
@@ -54,55 +75,73 @@ if (isset($labels) && is_array($labels)) {
 ?>
 <div class="<?php echo implode(' ', $class) ?>">
     <h4 class="socialsharing__heading"><?php echo $title ?></h4>
-    <div class="socialsharing__item socialsharing__count" data-count="<?php echo $sharing_count ?>">
+    
+    <div class="socialsharing__count" data-count="<?php echo $sharing_count ?>">
         <span class="socialsharing__value"><?php echo $sharing_count ?></span>
     </div>
-    <a 
-        class="socialsharing__item socialsharing__sharing socialsharing__facebook" 
-        <?php echo $link_attributes['facebook'] ?>
-        data-type="facebook"
-        >
-        <span class="socialsharing__ico">
-            <?php SocialIcons::facebook([
-                'class' => "socialsharing__ico-img"
-            ]) ?>
-        </span>
-        <span class="socialsharing__label"><?php echo $link_labels['facebook'] ?></span>
-    </a>
-    <a 
-        class="socialsharing__item socialsharing__sharing socialsharing__draugiem" 
-        <?php echo $link_attributes['draugiem'] ?>
-        data-type="draugiem"
-        data-prefix="LA.lv">
-        <span class="socialsharing__ico">
-            <?php SocialIcons::draugiem([
-                'class' => "socialsharing__ico-img"
-            ]) ?>
-        </span>
-        <span class="socialsharing__label"><?php echo $link_labels['draugiem'] ?></span>
-    </a>
-    <a 
-        class="socialsharing__item socialsharing__sharing socialsharing__twitter" 
-        <?php echo $link_attributes['twitter'] ?>
-        data-user="LA_lv"
-        data-type="twitter">
-        <span class="socialsharing__ico">
-            <?php SocialIcons::twitter([
-                'class' => "socialsharing__ico-img"
-            ]) ?>
-        </span>
-        <span class="socialsharing__label"><?php echo $link_labels['twitter'] ?></span>
-    </a>
-    <?php if ($method == 'share'): ?>
-    <a
-        class="socialsharing__item socialsharing__sharing socialsharing__email" 
-        data-type="email">
-        <span class="socialsharing__ico">
-            <?php SocialIcons::email([
-                'class' => "socialsharing__ico-img"
-            ]) ?>
-        </span>
-        <span class="socialsharing__label">E-mail</span>
-    </a>
-    <?php endif ?>
+
+    <div class="socialsharing__shares">
+        <div class="<?php echo implode(' ', $share_item_class) ?>">
+            <a 
+                class="socialsharing__share socialsharing__facebook" 
+                <?php echo $link_attributes['facebook'] ?>
+                data-type="facebook"
+                >
+                <span class="socialsharing__ico">
+                    <?php SocialIcons::facebook([
+                        'class' => "socialsharing__ico-img"
+                    ]) ?>
+                </span><span class="socialsharing__label">
+                    <?php echo $link_labels['facebook'] ?>
+                </span>
+            </a>
+        </div>
+        <div class="<?php echo implode(' ', $share_item_class) ?>">
+            <a 
+                class="socialsharing__share socialsharing__draugiem" 
+                <?php echo $link_attributes['draugiem'] ?>
+                data-type="draugiem"
+                data-prefix="LA.lv">
+                <span class="socialsharing__ico">
+                    <?php SocialIcons::draugiem([
+                        'class' => "socialsharing__ico-img"
+                    ]) ?>
+                </span><span class="socialsharing__label">
+                    <?php echo $link_labels['draugiem'] ?>
+                </span>
+            </a>
+        </div>
+        <div class="<?php echo implode(' ', $share_item_class) ?>">
+            <a 
+                class="socialsharing__share socialsharing__twitter" 
+                <?php echo $link_attributes['twitter'] ?>
+                data-user="LA_lv"
+                data-type="twitter">
+                <span class="socialsharing__ico">
+                    <?php SocialIcons::twitter([
+                        'class' => "socialsharing__ico-img"
+                    ]) ?>
+                </span><span class="socialsharing__label">
+                    <?php echo $link_labels['twitter'] ?>
+                </span>
+            </a>
+        </div>
+        <?php if ($method == 'share'): ?>
+        <div class="<?php echo implode(' ', $share_item_class) ?>">
+            <a
+                class="socialsharing__share socialsharing__email" 
+                data-type="email">
+                <span class="socialsharing__ico">
+                    <?php SocialIcons::email([
+                        'class' => "socialsharing__ico-img"
+                    ]) ?>
+                </span><span class="socialsharing__label">
+                    E-pasts
+                </span>
+            </a>
+        </div>
+        <?php endif ?>
+    
+    </div>
+
 </div>
