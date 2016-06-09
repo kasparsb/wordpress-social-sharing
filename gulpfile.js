@@ -1,3 +1,5 @@
+require('es6-promise').polyfill();
+
 var gulp = require('gulp');
 var rename = require('gulp-rename');
 var browserify = require('browserify');
@@ -5,6 +7,9 @@ var watchify = require('watchify');
 var source = require('vinyl-source-stream')
 var less = require('gulp-less');
 var pkg = require('./package.json');
+
+var postcss = require('gulp-postcss');
+var autoprefixer = require('autoprefixer');
 
 function getBrowserify() {
     // Konfigurējam browserify
@@ -25,6 +30,16 @@ function bundle(browserify) {
         .pipe(source('app.js'))
         .pipe(rename('app-'+pkg.version+'.js'))
         .pipe(gulp.dest('./build'));
+}
+
+function autoPrefixCss(src, dest) {
+    var processors = [
+        autoprefixer({browsers: ['last 6 version']})
+    ];
+
+    return gulp.src(src)
+        .pipe(postcss(processors))
+        .pipe(gulp.dest(dest));
 }
 
 gulp.task('browserify', function(){
@@ -57,6 +72,10 @@ gulp.task('less', function(){
 
 gulp.task('watchless', function(){
     gulp.watch(['./assets/less/**/*.less'], ['less'])
+});
+
+gulp.task('autoprefixcss', function(){
+    autoPrefixCss('./build/app-'+pkg.version+'.css', './build');
 });
 
 gulp.task('default', ['watchjs', 'watchless']);

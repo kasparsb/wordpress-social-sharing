@@ -1,0 +1,247 @@
+@-webkit-keyframes socialsharing-tada {
+  from {
+    -webkit-transform: scale3d(1, 1, 1);
+            transform: scale3d(1, 1, 1);
+  }
+  10%,
+  20% {
+    -webkit-transform: scale3d(0.9, 0.9, 0.9) rotate3d(0, 0, 1, -3deg);
+            transform: scale3d(0.9, 0.9, 0.9) rotate3d(0, 0, 1, -3deg);
+  }
+  30%,
+  50%,
+  70%,
+  90% {
+    -webkit-transform: scale3d(1.1, 1.1, 1.1) rotate3d(0, 0, 1, 3deg);
+            transform: scale3d(1.1, 1.1, 1.1) rotate3d(0, 0, 1, 3deg);
+  }
+  40%,
+  60%,
+  80% {
+    -webkit-transform: scale3d(1.1, 1.1, 1.1) rotate3d(0, 0, 1, -3deg);
+            transform: scale3d(1.1, 1.1, 1.1) rotate3d(0, 0, 1, -3deg);
+  }
+  to {
+    -webkit-transform: scale3d(1, 1, 1);
+            transform: scale3d(1, 1, 1);
+  }
+}
+@keyframes socialsharing-tada {
+  from {
+    -webkit-transform: scale3d(1, 1, 1);
+            transform: scale3d(1, 1, 1);
+  }
+  10%,
+  20% {
+    -webkit-transform: scale3d(0.9, 0.9, 0.9) rotate3d(0, 0, 1, -3deg);
+            transform: scale3d(0.9, 0.9, 0.9) rotate3d(0, 0, 1, -3deg);
+  }
+  30%,
+  50%,
+  70%,
+  90% {
+    -webkit-transform: scale3d(1.1, 1.1, 1.1) rotate3d(0, 0, 1, 3deg);
+            transform: scale3d(1.1, 1.1, 1.1) rotate3d(0, 0, 1, 3deg);
+  }
+  40%,
+  60%,
+  80% {
+    -webkit-transform: scale3d(1.1, 1.1, 1.1) rotate3d(0, 0, 1, -3deg);
+            transform: scale3d(1.1, 1.1, 1.1) rotate3d(0, 0, 1, -3deg);
+  }
+  to {
+    -webkit-transform: scale3d(1, 1, 1);
+            transform: scale3d(1, 1, 1);
+  }
+}
+.socialsharing {
+  overflow: hidden;
+  /**
+     * Sharing count field
+     */
+  /** Labels under icons */
+  /** Icon size */
+}
+.socialsharing__heading {
+  display: none;
+  margin: 0 0 4px;
+  font-size: 0.8rem;
+  font-weight: bold;
+}
+.entry-content .socialsharing__heading {
+  margin: 0 0 4px !important;
+  font-size: 0.8rem !important;
+  font-weight: bold !important;
+}
+.socialsharing__count {
+  display: none;
+  float: left;
+  background-color: #fff;
+  width: 40px;
+}
+.socialsharing__shares {
+  overflow: hidden;
+}
+.socialsharing__share-w {
+  float: left;
+  box-sizing: border-box;
+  padding-left: 2px;
+}
+.socialsharing__share-w:first-child {
+  padding-left: 0;
+}
+.socialsharing__share {
+  display: block;
+  cursor: pointer;
+  position: relative;
+  color: #fff;
+  padding: 0 12px;
+  -webkit-transition: all 300ms;
+  transition: all 300ms;
+}
+.socialsharing__share:hover .socialsharing__ico-img {
+  -webkit-animation-duration: 1s;
+          animation-duration: 1s;
+  -webkit-animation-fill-mode: both;
+          animation-fill-mode: both;
+  -webkit-animation-name: socialsharing-tada;
+          animation-name: socialsharing-tada;
+}
+.socialsharing__ico {
+  display: none;
+  width: 22px;
+  position: relative;
+  margin: 0 auto;
+}
+.socialsharing__ico-img {
+  position: absolute;
+  display: block !important;
+  width: 100%;
+  height: auto;
+  top: 9px;
+  left: 0;
+}
+.socialsharing__label {
+  display: none;
+  color: #fff;
+  font-size: 0.7rem;
+}
+.socialsharing__label:hover {
+  color: #fff;
+}
+.socialsharing__value {
+  display: block;
+  height: 40px;
+  line-height: 40px;
+  font-size: 1.1rem;
+  font-weight: bold;
+  border: 1px solid #d4d4d4;
+  text-align: center;
+  overflow: hidden;
+}
+.socialsharing__facebook {
+  background: #3b5999;
+}
+.socialsharing__facebook:hover {
+  background-color: #2d4474;
+}
+.socialsharing__twitter {
+  background: #55acef;
+}
+.socialsharing__twitter:hover {
+  background-color: #2d4474;
+}
+.socialsharing__draugiem {
+  background: #ff6600;
+}
+.socialsharing__draugiem:hover {
+  background-color: #cc5200;
+}
+.socialsharing__email {
+  background: #727272;
+}
+.socialsharing__email:hover {
+  background-color: #595959;
+}
+.socialsharing--fullwidth .socialsharing__share-w--width-100 {
+  width: 100%;
+}
+.socialsharing--fullwidth .socialsharing__share-w--width-50 {
+  width: 50%;
+}
+.socialsharing--fullwidth .socialsharing__share-w--width-33 {
+  width: 33%;
+}
+.socialsharing--fullwidth .socialsharing__share-w--width-25 {
+  width: 25%;
+}
+.socialsharing--fullwidth .socialsharing__share-w--width-20 {
+  width: 20%;
+}
+.socialsharing--sharingcount .socialsharing__count {
+  display: block;
+}
+.socialsharing--sharingcount .socialsharing__shares {
+  margin-left: 42px;
+}
+.socialsharing--icos .socialsharing__ico {
+  display: block;
+  height: 40px;
+  line-height: 40px;
+}
+.socialsharing--labels .socialsharing__label {
+  display: block;
+}
+.socialsharing--labelposition-inline .socialsharing__share {
+  text-align: center;
+  word-brake: keep-all;
+}
+.socialsharing--labelposition-inline .socialsharing__ico,
+.socialsharing--labelposition-inline .socialsharing__label {
+  vertical-align: middle;
+  display: inline-block;
+  height: 40px;
+  line-height: 40px;
+}
+.socialsharing--labelposition-inline .socialsharing__label {
+  line-height: 42px;
+}
+.socialsharing--labelposition-inline .socialsharing__ico {
+  margin-right: 6px;
+}
+.socialsharing--labelposition-inline .socialsharing__facebook .socialsharing__ico {
+  margin-right: 0;
+}
+.socialsharing--labelposition-bottom .socialsharing__ico,
+.socialsharing--labelposition-bottom .socialsharing__label {
+  display: block;
+  text-align: center;
+}
+.socialsharing--labelposition-bottom .socialsharing__label {
+  padding-bottom: 6px;
+}
+.socialsharing--icosize-large .socialsharing__ico {
+  width: 34px;
+}
+.socialsharing--icosize-large .socialsharing__ico-img {
+  top: 3px;
+}
+.socialsharing--nolabels .socialsharing__label {
+  display: none;
+}
+.socialsharing--hastitle .socialsharing__heading {
+  display: block;
+}
+@media screen and (max-width: 550px) {
+  .socialsharing--labelposition-inline .socialsharing__label {
+    display: none;
+  }
+  .socialsharing--labelposition-inline .socialsharing__ico {
+    margin-right: 0;
+  }
+}
+@media screen and (max-width: 350px) {
+  .socialsharing--labels .socialsharing__label {
+    display: none;
+  }
+}
