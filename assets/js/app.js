@@ -1,4 +1,6 @@
 var $ = jQuery;
+var Cover = require('./cover');
+var EmailForm = require('./email-form');
 
 var windowProps = 'location=1,status=1,scrollbars=0,resizable=0,width=530,height=400';
 
@@ -62,7 +64,22 @@ var sharing = {
     },
 
     email: function() {
-        shareViaEmail(unformatted.title, unformatted.link);
+        if (typeof shareViaEmail != 'undefined') {
+            shareViaEmail(unformatted.title, unformatted.link);
+        }
+        else {
+            Cover.show(
+                EmailForm.get(
+                    unformatted.title, 
+                    unformatted.link,
+                    {
+                        postId: socialsharing.postId,
+                        ajaxUrl: socialsharing.ajaxUrl,
+                        action: 'socialsharing_sendtoemail'
+                    }
+                )
+            );
+        }
     }
 }
 

@@ -19,6 +19,10 @@ class Plugin extends Base {
         
         //add_action('admin_enqueue_scripts', [$this, 'scripts_styles']);
         add_action('wp_enqueue_scripts', [$this, 'scripts_styles']);
+
+        // Send link to email
+        add_action( 'wp_ajax_socialsharing_sendtoemail', array( $this, 'do_send_to_email' ) );
+        add_action( 'wp_ajax_nopriv_socialsharing_sendtoemail', array( $this, 'do_send_to_email' ) );
     }
 
     public function admin_menu() {
@@ -41,8 +45,11 @@ class Plugin extends Base {
         wp_enqueue_style('socialsharing');
         wp_enqueue_script('socialsharing');
 
-        //wp_register_script('postscollections-main', plugins_url( 'assets/main.js', __FILE__ ), ['jquery', 'jquery-ui-sortable'], '1.8');
-        //wp_localize_script('postscollections-main', 'postscollections', ['ajax_url' => admin_url( 'admin-ajax.php' )]);
+        global $post;
+        wp_localize_script('socialsharing', 'socialsharing', [
+            'ajaxUrl' => admin_url('admin-ajax.php'),
+            'postId' => $post ? $post->ID : ''
+        ]);
     }
 
     /**
@@ -248,5 +255,82 @@ class Plugin extends Base {
 
         wp_redirect('options-general.php?page=socialsharing');
         exit;
+    }
+
+    public function do_send_to_email() {
+        $reciever_email = trim(filter_input(INPUT_POST, 'recieveremail', FILTER_SANITIZE_EMAIL));
+        $comment = filter_input(INPUT_POST, 'comment', FILTER_SANITIZE_STRING);
+        $email = trim(filter_input(INPUT_POST, 'email', FILTER_SANITIZE_EMAIL));
+        $name = filter_input(INPUT_POST, 'name', FILTER_SANITIZE_STRING);
+
+        $post_id = filter_input(INPUT_POST, 'post_id', FILTER_SANITIZE_NUMBER_INT);
+
+        $errors = [];
+
+        // Validējam
+        if (!filter_var($reciever_email, FILTER_VALIDATE_EMAIL)) {
+            $errors[] = 'Norādiet saņēmēja e-pastu!';
+        }
+
+        if (!filter_var($email, FILTER_VALIDATE_EMAIL)) {
+            $errors[] = 'Norādiet savu e-pastu!';
+        }
+
+        if (count($errors) > 0) {
+            echo json_encode([
+                'success' => false,
+                'message' => implode('<br />', $errors)
+            ]);
+            exit;
+        }
+
+
+        global $post;
+
+        $post = get_post($post_id);
+        
+        setup_postdata($post);
+        $title = get_the_title();
+        $link = get_permalink($post_id);
+        $excerpt = get_the_excerpt();
+
+        $message = $this->get_link_share_email_template(compact(
+            'reciever_email',
+            'comment',
+            'email',
+            'name',
+            'title',
+            'excerpt',
+            'link'
+        ));
+
+        $this->send_mail($reciever_email, 'Draugs sūta interesantu rakstu', $message);
+
+        echo json_encode([
+            'success' => true
+        ]);
+        exit;
+    }
+
+    public function get_link_share_email_template($data) {
+        $f = dirname(__FILE__).'/template/link-share-email.php';
+
+        ob_start();
+
+        extract($data);
+        
+        include($f);
+
+        $h = ob_get_contents();
+        ob_end_clean();
+        return $h;
+    }
+
+    public function send_mail($mail, $title, $message) {
+        LA_Auth::send_email([
+            'email' => $mail,
+            'subject' => $title,
+            'body' => $message,
+        ]);
     }
 }
