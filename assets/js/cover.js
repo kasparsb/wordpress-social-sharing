@@ -45,5 +45,8 @@ module.exports = {
         init();
         setContent($content);
         show();
+    },
+    hide: function() {
+        hide();
     }
 }

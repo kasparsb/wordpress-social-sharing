@@ -1,4 +1,7 @@
 .email-form {
+    position: relative;
+    padding: 14px;
+
     &__heading {
         text-align: center;
         padding: 20px 0;
@@ -17,6 +20,16 @@
         }        
     }
 
+    &__label {
+        display: block;
+    }
+
+    &__input,
+    &__textarea {
+        box-sizing: border-box;
+        width: 100%;
+    }
+
     &__field--required &__label {
         &:after {
             content: '*';
@@ -32,6 +45,32 @@
         padding: 20px 20px 0;
     }
     &--error &__error {
+        display: block;
+    }
+
+    &__loading {
+        display: none;
+        position: absolute;
+        top: 0;
+        left: 0;
+        right: 0;
+        bottom: 0;
+        z-index: 100;
+        background: rgba(0,0,0,0.5);
+
+        &-ico {
+            position: absolute;
+            width: 60px;
+            height: 60px;
+            background: #fff url(../assets/images/loader.gif) no-repeat center;
+            border-radius: 4px;
+            top: 50%;
+            margin-top: -30px;
+            left: 50%;
+            margin-left: -30px;
+        }
+    }
+    &--busy &__loading {
         display: block;
     }
 }

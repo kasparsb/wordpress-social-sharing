@@ -35,10 +35,13 @@
   margin: 70px auto 0;
   max-width: 500px;
   background: #fff;
-  padding: 14px;
 }
 .cover--visible {
   display: block;
+}
+.email-form {
+  position: relative;
+  padding: 14px;
 }
 .email-form__heading {
   text-align: center;
@@ -55,6 +58,14 @@
 .email-form__field:first-child {
   margin-top: 0;
 }
+.email-form__label {
+  display: block;
+}
+.email-form__input,
+.email-form__textarea {
+  box-sizing: border-box;
+  width: 100%;
+}
 .email-form__field--required .email-form__label:after {
   content: '*';
   display: inline;
@@ -67,6 +78,30 @@
   padding: 20px 20px 0;
 }
 .email-form--error .email-form__error {
+  display: block;
+}
+.email-form__loading {
+  display: none;
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  z-index: 100;
+  background: rgba(0, 0, 0, 0.5);
+}
+.email-form__loading-ico {
+  position: absolute;
+  width: 60px;
+  height: 60px;
+  background: #fff url(../assets/images/loader.gif) no-repeat center;
+  border-radius: 4px;
+  top: 50%;
+  margin-top: -30px;
+  left: 50%;
+  margin-left: -30px;
+}
+.email-form--busy .email-form__loading {
   display: block;
 }
 .socialsharing {

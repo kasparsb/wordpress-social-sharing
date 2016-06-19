@@ -1,6 +1,7 @@
 var $ = jQuery;
 var $panel = null;
 var backendConfig;
+var successCb;
 
 function init() {
     if (!$panel) {
@@ -22,6 +23,9 @@ function createPanel() {
                 $('<div class="email-form__buttons" />').append(
                     $('<button type="submit" class="email-form__button">Nosūtīt</button>')
                 )
+            ),
+            $('<div class="email-form__loading" />').append(
+                $('<div class="email-form__loading-ico" />')
             )
         );
     }
@@ -87,15 +91,15 @@ function setEvents() {
                 showError(r.message);
             }
             else {
-                Cover.hide();
+                successCb();
             }
         }, 'json')
     })
 }
 
 module.exports = {
-    get: function(title, link, conf) {
-        console.log(conf);
+    get: function(title, link, conf, success) {
+        successCb = success;
         backendConfig = conf;
         init();
         $panel.find('.email-form__heading').html(title);

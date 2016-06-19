@@ -76,6 +76,9 @@ var sharing = {
                         postId: socialsharing.postId,
                         ajaxUrl: socialsharing.ajaxUrl,
                         action: 'socialsharing_sendtoemail'
+                    },
+                    function() {
+                        Cover.hide();
                     }
                 )
             );
