@@ -21,8 +21,16 @@ class Plugin extends Base {
         add_action('wp_enqueue_scripts', [$this, 'scripts_styles']);
 
         // Send link to email
-        add_action( 'wp_ajax_socialsharing_sendtoemail', array( $this, 'do_send_to_email' ) );
-        add_action( 'wp_ajax_nopriv_socialsharing_sendtoemail', array( $this, 'do_send_to_email' ) );
+        add_action('wp_ajax_socialsharing_sendtoemail', [$this, 'do_send_to_email']);
+        add_action('wp_ajax_nopriv_socialsharing_sendtoemail', [$this, 'do_send_to_email']);
+
+        // Track button click
+        add_action('wp_ajax_socialsharing_hit', [$this, 'do_hit']);
+        add_action('wp_ajax_nopriv_socialsharing_hit', [$this, 'do_hit']);
+
+        // Count hits
+        add_action('wp_ajax_socialsharing_count_hits', [$this, 'do_count_hits']);
+        add_action('wp_ajax_nopriv_socialsharing_hits', [$this, 'do_count_hits']);        
     }
 
     public function admin_menu() {
@@ -84,7 +92,13 @@ class Plugin extends Base {
         // Ja nav padots sharing_count caur shortcode params, tad nolasām no posta
         if (!$atts['sharing_count']) {
             if ($post && $post->ID) {
-                $atts['sharing_count'] = $this->get_sharing_count($post->ID);
+                // Ja ir custom shares count, tad ņemam to
+                if ($custom_sharing_count = $this->get_sharing_count($post->ID)) {
+                    $atts['sharing_count'] = $this->get_sharing_count($post->ID);
+                }
+                else {
+                    $atts['sharing_count'] = $this->get_organic_count($post->ID);
+                }
             }
         }
 
@@ -195,6 +209,9 @@ class Plugin extends Base {
         $this->nonce_field_metabox('socialsharing');
         ?>
         <div>
+            Organic: <?php echo $this->get_organic_count($post->ID) ?>
+        </div>
+        <div>
             <input type="text" value="<?php echo $this->get_sharing_count($post->ID) ?>" name="socialsharing_count" />
         </div>
         <?php
@@ -202,6 +219,11 @@ class Plugin extends Base {
 
     public function get_sharing_count($post_id) {
         $c = intval(get_post_meta($post_id, '_socialsharing_count', true));
+        return $c === 0 ? '' : $c;
+    }
+
+    public function get_organic_count($post_id) {
+        $c = intval(get_post_meta($post_id, '_socialsharing_hits', true));
         return $c === 0 ? '' : $c;
     }
 
@@ -312,6 +334,32 @@ class Plugin extends Base {
         exit;
     }
 
+    public function do_hit() {
+        $post_id = filter_input(INPUT_POST, 'post_id', FILTER_SANITIZE_NUMBER_INT);
+        $share = filter_input(INPUT_POST, 'share', FILTER_SANITIZE_STRING);
+
+        $this->record_hit($post_id, $share, $this->get_ip(), $this->get_user_agent());
+
+        exit;
+    }
+
+    public function do_count_hits() {
+        $this->count_hits();
+        exit;
+    }
+
+    public function get_ip() {
+        if (!empty($_SERVER['HTTP_X_FORWARDED_FOR'])) {
+            return $_SERVER['HTTP_X_FORWARDED_FOR'];
+        }
+        
+        return $_SERVER['REMOTE_ADDR'];
+    }
+
+    public function get_user_agent() {
+        return empty($_SERVER['HTTP_USER_AGENT']) ? '' : $_SERVER['HTTP_USER_AGENT'];
+    }
+
     public function get_link_share_email_template($data) {
         $f = dirname(__FILE__).'/template/link-share-email.php';
 
@@ -332,5 +380,47 @@ class Plugin extends Base {
             'subject' => $title,
             'body' => $message,
         ]);
+    }
+
+    public function record_hit($post_id, $share, $ip, $user_agent) {
+        $time = date('Y-m-d H:i:s');
+        /**
+         * Individual hits data
+         * data, ip, user_agent separated by |
+         */
+        add_post_meta($post_id, '_socialsharing_hit_'.$share, implode('|', [
+            $time,
+            $ip,
+            $user_agent
+        ]));
+
+        /**
+         * Piefiksējam, ka ir bijis hit, bet to vēl neatrādam pie posta
+         * metode count_hits skatīsies šo ierakstus un tie, kas ir 
+         * vecāki par 2 min tiks pieskaitīti pie kopējā shares count
+         */
+        add_post_meta($post_id, '_socialsharing_tracked_hit', $time);
+    }
+
+    private function add_post_share_hit($post_id, $hits=1) {
+        // Total hits
+        $total_hits = intval(get_post_meta($post_id, '_socialsharing_hits', true));
+        update_post_meta($post_id, '_socialsharing_hits', $total_hits + $hits);
+    }
+
+    private function count_hits() {
+        global $wpdb;
+
+        $q = "select * from $wpdb->postmeta where meta_key='_socialsharing_tracked_hit'";
+        $rows = $wpdb->get_results($q);
+
+        $current_time = time();
+        foreach ($rows as $row) {
+            $time = strtotime($row->meta_value);
+            if ($current_time - $time > 120) { // 2 min
+                $this->add_post_share_hit($row->post_id);
+                $wpdb->delete($wpdb->postmeta, ['meta_id' => $row->meta_id]);
+            }
+        }
     }
 }

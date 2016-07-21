@@ -26,10 +26,19 @@ function setEvents() {
 
             var t = $(this).data('type');
             if (sharing[t] != 'undefined') {
+                trackShareHit(t);
                 sharing[t]($(this));
             }
         }
     })
+}
+
+function trackShareHit(share, postId) {
+    $.post(socialsharing.ajaxUrl, {
+        action: 'socialsharing_hit',
+        post_id: socialsharing.postId,
+        share: share
+    });
 }
 
 var sharing = {

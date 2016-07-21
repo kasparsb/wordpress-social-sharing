@@ -13,6 +13,7 @@ function init() {
 function createPanel() {
     if (!$panel) {
         $panel = $('<div class="email-form" />').append(
+            $('<a class="email-form__close" />').html('&times;'),
             $('<header class="email-form__heading" />'),
             $('<form class="email-form__fields" />').attr('method', 'post').append(
                 fieldTextHtml('Saņēmēja e-pasts:', 'reciever-email', 'email', true),
@@ -94,7 +95,13 @@ function setEvents() {
                 successCb();
             }
         }, 'json')
-    })
+    });
+
+    $panel.on('click', '.email-form__close', function(ev){
+        ev.preventDefault();
+
+        successCb();
+    });
 }
 
 module.exports = {
