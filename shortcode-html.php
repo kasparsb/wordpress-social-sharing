@@ -33,7 +33,7 @@ if ($width) {
 }
 
 // Share pogu skaits
-$share_items_count = $method == 'share' ? 4 : 3;
+$share_items_count = count($icons);
 
 $share_item_class = [
     'socialsharing__share-w',
@@ -41,16 +41,17 @@ $share_item_class = [
 ];
 
 
-$link_attributes = [
-    'facebook' => '',
-    'draugiem' => '',
-    'twitter' => ''
-];
+$link_attributes = [];
+foreach ($icons as $icon) {
+    $link_attributes[$icon] = '';
+}
 
 $link_labels = [
     'facebook' => 'Facebook',
     'draugiem' => 'Draugiem',
-    'twitter' => 'Twitter'
+    'twitter' => 'Twitter',
+    'email' => 'E-pasts',
+    'whatsapp' => 'WhatsApp'
 ];
 
 if (isset($links) && is_array($links)) {
@@ -81,66 +82,24 @@ if (isset($labels) && is_array($labels)) {
     </div>
 
     <div class="socialsharing__shares">
+        
+        <?php foreach ($icons as $icon): ?>
         <div class="<?php echo implode(' ', $share_item_class) ?>">
             <a 
-                class="socialsharing__share socialsharing__facebook" 
-                <?php echo $link_attributes['facebook'] ?>
-                data-type="facebook"
+                class="socialsharing__share socialsharing__<?php echo $icon ?>" 
+                <?php echo $link_attributes[$icon] ?>
+                data-type="<?php echo $icon ?>"
                 >
                 <span class="socialsharing__ico">
-                    <?php SocialIcons::facebook([
+                    <?php SocialIcons::{$icon}([
                         'class' => "socialsharing__ico-img"
                     ]) ?>
                 </span><span class="socialsharing__label">
-                    <?php echo $link_labels['facebook'] ?>
+                    <?php echo $link_labels[$icon] ?>
                 </span>
             </a>
         </div>
-        <div class="<?php echo implode(' ', $share_item_class) ?>">
-            <a 
-                class="socialsharing__share socialsharing__draugiem" 
-                <?php echo $link_attributes['draugiem'] ?>
-                data-type="draugiem"
-                data-prefix="LA.lv">
-                <span class="socialsharing__ico">
-                    <?php SocialIcons::draugiem([
-                        'class' => "socialsharing__ico-img"
-                    ]) ?>
-                </span><span class="socialsharing__label">
-                    <?php echo $link_labels['draugiem'] ?>
-                </span>
-            </a>
-        </div>
-        <div class="<?php echo implode(' ', $share_item_class) ?>">
-            <a 
-                class="socialsharing__share socialsharing__twitter" 
-                <?php echo $link_attributes['twitter'] ?>
-                data-user="LA_lv"
-                data-type="twitter">
-                <span class="socialsharing__ico">
-                    <?php SocialIcons::twitter([
-                        'class' => "socialsharing__ico-img"
-                    ]) ?>
-                </span><span class="socialsharing__label">
-                    <?php echo $link_labels['twitter'] ?>
-                </span>
-            </a>
-        </div>
-        <?php if ($method == 'share'): ?>
-        <div class="<?php echo implode(' ', $share_item_class) ?>">
-            <a
-                class="socialsharing__share socialsharing__email" 
-                data-type="email">
-                <span class="socialsharing__ico">
-                    <?php SocialIcons::email([
-                        'class' => "socialsharing__ico-img"
-                    ]) ?>
-                </span><span class="socialsharing__label">
-                    E-pasts
-                </span>
-            </a>
-        </div>
-        <?php endif ?>
+        <?php endforeach ?>
     
     </div>
 

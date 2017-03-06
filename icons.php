@@ -30,6 +30,11 @@ class Icons {
         echo sprintf('<img %s />', $this->attributes_html($attr));
     }
 
+    public function whatsapp($attr=[]) {
+        $attr['src'] = $this->images_url.'whatsapp.png';
+        echo sprintf('<img %s />', $this->attributes_html($attr));
+    }
+
     private function attributes_html($attr) {
         $h = [];
         foreach ($attr as $key => $val) {

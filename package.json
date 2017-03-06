@@ -1,6 +1,6 @@
 {
   "name": "wbsocialsharing",
-  "version": "0.2.4",
+  "version": "0.4.1",
   "private": true,
   "devDependencies": {
     "es6-promise": "^3.0.2",

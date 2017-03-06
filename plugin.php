@@ -75,7 +75,9 @@ class Plugin extends Base {
             'show_icons' => true,
 
             'label_position' => 'inline', // bottom
-            'icon_size' => 'normal'
+            'icon_size' => 'normal',
+
+            'icons' => 'fb,dr,tw,e'
             
         ], $atts, 'socialsharing');
 
@@ -85,6 +87,9 @@ class Plugin extends Base {
 
         // Share link
         $atts['method'] = 'share';
+
+        // Icons
+        $atts['icons'] = $this->expand_icons($atts['icons']);
 
 
         global $post;
@@ -117,7 +122,9 @@ class Plugin extends Base {
             'show_icons' => true,
             
             'label_position' => 'inline', // bottom
-            'icon_size' => 'normal'
+            'icon_size' => 'normal',
+
+            'icons' => 'fb,dr,tw'
 
         ], $atts, 'socialfollow');
 
@@ -130,6 +137,9 @@ class Plugin extends Base {
 
         // Show social profiles follow links
         $atts['method'] = 'follow';
+
+        // Icons
+        $atts['icons'] = $this->expand_icons($atts['icons']);
 
 
         // Sociālo profilu linki
@@ -172,6 +182,29 @@ class Plugin extends Base {
         $h = ob_get_contents();
         ob_end_clean();
         return $h;
+    }
+
+    /**
+     * Izfiltrējam tukšās ikonas
+     * Īsos nosaukumus konvertējam uz atbilstošajiem pilnajiem nosaukumiem
+     */
+    private function expand_icons($icons) {
+        $icons = array_filter(array_map('trim', explode(',', $icons)));
+
+        $map = [
+            'fb' => 'facebook',
+            'dr' => 'draugiem',
+            'tw' => 'twitter',
+            'e' => 'email',
+            'wa' => 'whatsapp'
+        ];
+
+        $r = [];
+        foreach ($icons as $icon) {
+            $r[] = array_key_exists($icon, $map) ? $map[$icon] : $icon;
+        }
+
+        return $r;
     }
 
     public function save_post( $post_id ) {

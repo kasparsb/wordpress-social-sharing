@@ -50,9 +50,6 @@ var sharing = {
         );
     },
 
-    /**
-     * Facebook
-     */
     facebook: function( $el ) {
         window.open(
             'http://www.facebook.com/sharer.php?u='+link+'&t='+title,
@@ -61,15 +58,16 @@ var sharing = {
         );
     },
 
-    /**
-     * Twitter
-     */
     twitter: function( $el ) {
         window.open(
             'http://twitter.com/home/?status='+title+' '+link+' via @'+encodeURIComponent( $el.data('user') ),
             'twitter',
             windowProps
         );
+    },
+
+    whatsapp: function( $el ) {
+        window.location = 'whatsapp://send?text='+title+'%20'+link;
     },
 
     email: function() {

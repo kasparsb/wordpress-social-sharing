@@ -247,6 +247,12 @@
 .socialsharing__email:hover {
   background-color: #595959;
 }
+.socialsharing__whatsapp {
+  background: #1e9e11;
+}
+.socialsharing__whatsapp:hover {
+  background-color: #15700c;
+}
 .socialsharing--fullwidth .socialsharing__share-w--width-100 {
   width: 100%;
 }
