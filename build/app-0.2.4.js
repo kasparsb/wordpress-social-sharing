@@ -27,10 +27,19 @@ function setEvents() {
 
             var t = $(this).data('type');
             if (sharing[t] != 'undefined') {
+                trackShareHit(t);
                 sharing[t]($(this));
             }
         }
     })
+}
+
+function trackShareHit(share, postId) {
+    $.post(socialsharing.ajaxUrl, {
+        action: 'socialsharing_hit',
+        post_id: socialsharing.postId,
+        share: share
+    });
 }
 
 var sharing = {
@@ -77,6 +86,9 @@ var sharing = {
                         postId: socialsharing.postId,
                         ajaxUrl: socialsharing.ajaxUrl,
                         action: 'socialsharing_sendtoemail'
+                    },
+                    function() {
+                        Cover.hide();
                     }
                 )
             );
@@ -133,12 +145,16 @@ module.exports = {
         init();
         setContent($content);
         show();
+    },
+    hide: function() {
+        hide();
     }
 }
 },{}],3:[function(require,module,exports){
 var $ = jQuery;
 var $panel = null;
 var backendConfig;
+var successCb;
 
 function init() {
     if (!$panel) {
@@ -150,6 +166,7 @@ function init() {
 function createPanel() {
     if (!$panel) {
         $panel = $('<div class="email-form" />').append(
+            $('<a class="email-form__close" />').html('&times;'),
             $('<header class="email-form__heading" />'),
             $('<form class="email-form__fields" />').attr('method', 'post').append(
                 fieldTextHtml('Saņēmēja e-pasts:', 'reciever-email', 'email', true),
@@ -160,6 +177,12 @@ function createPanel() {
                 $('<div class="email-form__buttons" />').append(
                     $('<button type="submit" class="email-form__button">Nosūtīt</button>')
                 )
+            ),
+            $('<div class="email-form__loading" />').append(
+                $('<div class="email-form__loading-ico" />')
+            ),
+            $('<div class="email-form__success" />').append(
+                $('<div class="email-form__success-message" />').html('E-pasts nosūtīts!')
             )
         );
     }
@@ -194,12 +217,25 @@ function fieldTextareaHtml(caption, name) {
     );
 }
 
+function clearForm() {
+    $panel.find('input, textarea').val('');
+}
+
 function showLoading() {
     $panel.addClass('email-form--busy');
 }
 
 function hideLoading() {
     $panel.removeClass('email-form--busy');
+}
+
+function showSuccess() {
+    hideLoading();
+    $panel.addClass('email-form--success');
+}
+
+function hideSuccess() {
+    $panel.removeClass('email-form--success');
 }
 
 function setEvents() {       
@@ -225,17 +261,28 @@ function setEvents() {
                 showError(r.message);
             }
             else {
-                Cover.hide();
+
+                showSuccess();
+                setTimeout(successCb, 2000);
             }
         }, 'json')
-    })
+    });
+
+    $panel.on('click', '.email-form__close', function(ev){
+        ev.preventDefault();
+
+        successCb();
+    });
 }
 
 module.exports = {
-    get: function(title, link, conf) {
-        console.log(conf);
+    get: function(title, link, conf, success) {
+        successCb = success;
         backendConfig = conf;
         init();
+        hideLoading();
+        hideSuccess();
+        clearForm();
         $panel.find('.email-form__heading').html(title);
         return $panel;
     }

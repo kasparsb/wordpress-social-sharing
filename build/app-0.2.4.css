@@ -35,10 +35,25 @@
   margin: 70px auto 0;
   max-width: 500px;
   background: #fff;
-  padding: 14px;
 }
 .cover--visible {
   display: block;
+}
+.email-form {
+  position: relative;
+  padding: 14px;
+}
+.email-form__close {
+  position: absolute;
+  width: 40px;
+  height: 40px;
+  line-height: 40px;
+  text-align: center;
+  color: #000;
+  font-size: 28px;
+  top: 0;
+  right: 0;
+  cursor: pointer;
 }
 .email-form__heading {
   text-align: center;
@@ -55,6 +70,14 @@
 .email-form__field:first-child {
   margin-top: 0;
 }
+.email-form__label {
+  display: block;
+}
+.email-form__input,
+.email-form__textarea {
+  box-sizing: border-box;
+  width: 100%;
+}
 .email-form__field--required .email-form__label:after {
   content: '*';
   display: inline;
@@ -67,6 +90,56 @@
   padding: 20px 20px 0;
 }
 .email-form--error .email-form__error {
+  display: block;
+}
+.email-form__loading {
+  display: none;
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  z-index: 100;
+  background: rgba(255, 255, 255, 0.5);
+  z-index: 270;
+}
+.email-form__loading-ico {
+  position: absolute;
+  width: 60px;
+  height: 60px;
+  background: #fff url(../assets/images/loader.gif) no-repeat center;
+  border-radius: 4px;
+  top: 50%;
+  margin-top: -30px;
+  left: 50%;
+  margin-left: -30px;
+}
+.email-form--busy .email-form__loading {
+  display: block;
+}
+.email-form__success {
+  display: none;
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  z-index: 100;
+  background: #ffffff;
+  z-index: 300;
+}
+.email-form__success-message {
+  position: absolute;
+  left: 0;
+  right: 0;
+  height: 1.6rem;
+  line-height: 1.6rem;
+  top: 50%;
+  margin-top: -0.8rem;
+  text-align: center;
+  font-size: 1.1rem;
+}
+.email-form--success .email-form__success {
   display: block;
 }
 .socialsharing {
@@ -243,7 +316,7 @@
 .socialsharing--hastitle .socialsharing__heading {
   display: block;
 }
-@media screen and (max-width: 550px) {
+@media screen and (max-width: 650px) {
   .socialsharing--labelposition-inline .socialsharing__label {
     display: none;
   }

@@ -27,6 +27,9 @@ function createPanel() {
             ),
             $('<div class="email-form__loading" />').append(
                 $('<div class="email-form__loading-ico" />')
+            ),
+            $('<div class="email-form__success" />').append(
+                $('<div class="email-form__success-message" />').html('E-pasts nosūtīts!')
             )
         );
     }
@@ -61,12 +64,25 @@ function fieldTextareaHtml(caption, name) {
     );
 }
 
+function clearForm() {
+    $panel.find('input, textarea').val('');
+}
+
 function showLoading() {
     $panel.addClass('email-form--busy');
 }
 
 function hideLoading() {
     $panel.removeClass('email-form--busy');
+}
+
+function showSuccess() {
+    hideLoading();
+    $panel.addClass('email-form--success');
+}
+
+function hideSuccess() {
+    $panel.removeClass('email-form--success');
 }
 
 function setEvents() {       
@@ -92,7 +108,9 @@ function setEvents() {
                 showError(r.message);
             }
             else {
-                successCb();
+
+                showSuccess();
+                setTimeout(successCb, 2000);
             }
         }, 'json')
     });
@@ -109,6 +127,9 @@ module.exports = {
         successCb = success;
         backendConfig = conf;
         init();
+        hideLoading();
+        hideSuccess();
+        clearForm();
         $panel.find('.email-form__heading').html(title);
         return $panel;
     }

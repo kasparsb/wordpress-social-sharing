@@ -30,7 +30,7 @@ class Plugin extends Base {
 
         // Count hits
         add_action('wp_ajax_socialsharing_count_hits', [$this, 'do_count_hits']);
-        add_action('wp_ajax_nopriv_socialsharing_hits', [$this, 'do_count_hits']);        
+        add_action('wp_ajax_nopriv_socialsharing_count_hits', [$this, 'do_count_hits']);        
     }
 
     public function admin_menu() {
@@ -375,7 +375,7 @@ class Plugin extends Base {
     }
 
     public function send_mail($mail, $title, $message) {
-        LA_Auth::send_email([
+        \LA_Auth::send_email([
             'email' => $mail,
             'subject' => $title,
             'body' => $message,
@@ -415,8 +415,10 @@ class Plugin extends Base {
         $rows = $wpdb->get_results($q);
 
         $current_time = time();
+        echo "start count hits ".date('Y-m-d H:i:s', $current_time)."\n";
         foreach ($rows as $row) {
             $time = strtotime($row->meta_value);
+            echo $row->post_id.' - '.date('Y-m-d H:i:s', $time)."\n";
             if ($current_time - $time > 120) { // 2 min
                 $this->add_post_share_hit($row->post_id);
                 $wpdb->delete($wpdb->postmeta, ['meta_id' => $row->meta_id]);
