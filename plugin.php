@@ -77,7 +77,13 @@ class Plugin extends Base {
             'label_position' => 'inline', // bottom
             'icon_size' => 'normal',
 
-            'icons' => 'fb,dr,tw,e'
+            'icons' => 'fb,dr,tw,e',
+
+            // Data atribūti, kur tiek uzlikti uz elementu, lai ar js var nolasīt
+            'data-user' => '',
+            'data-prefix' => '',
+            'data-title' => '',
+            'data-link' => ''
             
         ], $atts, 'socialsharing');
 

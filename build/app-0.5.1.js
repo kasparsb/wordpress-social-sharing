@@ -6,24 +6,22 @@ var EmailForm = require('./email-form');
 var windowProps = 'location=1,status=1,scrollbars=0,resizable=0,width=530,height=400';
 
 var unformatted = {
-    title: document.title,
-    link: window.location.href
+    title: '',
+    link: '',
+    user: '', // twitter
+    prefix: '' // draugiem
 }
 
-var title = encodeURIComponent(unformatted.title);
-var link = encodeURIComponent(unformatted.link);
-
-/**
- * @todo Vecajā versijā bija ovverride share variables
- * Noskaidrot ko tie darīja
- */
-//overrideShareVariables();
+var title, link, user, prefix;
 
 function setEvents() {
     $(document).on('click', '.socialsharing__share', function(ev){
         // Ja ir metode share, tad pārtraucam uzlikot href
         if ($(this).parents('.socialsharing').hasClass('socialsharing--share')) {
             ev.preventDefault();
+
+            // Nolasām uz sharing elementu uzliktos title, link, user parametrus. Ja tādi ir
+            readParameters($(this).parents('.socialsharing'));
 
             var t = $(this).data('type');
             if (sharing[t] != 'undefined') {
@@ -32,6 +30,18 @@ function setEvents() {
             }
         }
     })
+}
+
+function readParameters($el) {
+    unformatted.title = $el.data('title') ? $el.data('title') : document.title;
+    unformatted.link = $el.data('link') ? $el.data('link') : window.location.href;
+    unformatted.user = $el.data('user') ? $el.data('user') : '';
+    unformatted.prefix = $el.data('prefix') ? $el.data('prefix') : '';
+
+    title = encodeURIComponent(unformatted.title);
+    link = encodeURIComponent(unformatted.link);
+    user = encodeURIComponent(unformatted.user);
+    prefix = encodeURIComponent(unformatted.prefix);
 }
 
 function trackShareHit(share, postId) {
@@ -45,7 +55,7 @@ function trackShareHit(share, postId) {
 var sharing = {
     draugiem: function( $el ) {
         window.open( 
-            'http://www.draugiem.lv/say/ext/add.php?title='+title+'&link='+link+'&titlePrefix='+encodeURIComponent( $el.data('prefix') ),
+            'http://www.draugiem.lv/say/ext/add.php?title='+title+'&link='+link+'&titlePrefix='+prefix,
             'draugiem', 
             windowProps
         );
@@ -60,8 +70,13 @@ var sharing = {
     },
 
     twitter: function( $el ) {
+        var via = '';
+        if (user) {
+            via = ' via @'+user;
+        }
+
         window.open(
-            'http://twitter.com/home/?status='+title+' '+link+' via @'+encodeURIComponent( $el.data('user') ),
+            'http://twitter.com/home/?status='+title+' '+link+via,
             'twitter',
             windowProps
         );

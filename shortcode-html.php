@@ -73,8 +73,16 @@ if (isset($labels) && is_array($labels)) {
         $link_labels[$k] = $label;
     }
 }
+
+// Data attributes
+$data_attributes = [];
+foreach ($atts as $n => $v) {
+    if (substr($n, 0, 5) == 'data-' && $v) {
+        $data_attributes[] = sprintf('%s="%s"', $n, $v);
+    }
+}
 ?>
-<div class="<?php echo implode(' ', $class) ?>">
+<div class="<?php echo implode(' ', $class) ?>" <?php echo implode(' ', $data_attributes) ?>>
     <h4 class="socialsharing__heading"><?php echo $title ?></h4>
     
     <div class="socialsharing__count" data-count="<?php echo $sharing_count ?>">
