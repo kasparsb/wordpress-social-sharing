@@ -83,6 +83,7 @@ class Plugin extends Base {
             'data-user' => '',
             'data-prefix' => '',
             'data-title' => '',
+            'data-description' => '',
             'data-link' => ''
             
         ], $atts, 'socialsharing');

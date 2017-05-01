@@ -9,10 +9,11 @@ var unformatted = {
     title: '',
     link: '',
     user: '', // twitter
-    prefix: '' // draugiem
+    prefix: '', // draugiem,
+    description: ''
 }
 
-var title, link, user, prefix;
+var title, link, user, prefix, description, name;
 
 function setEvents() {
     $(document).on('click', '.socialsharing__share', function(ev){
@@ -37,11 +38,13 @@ function readParameters($el) {
     unformatted.link = $el.data('link') ? $el.data('link') : window.location.href;
     unformatted.user = $el.data('user') ? $el.data('user') : '';
     unformatted.prefix = $el.data('prefix') ? $el.data('prefix') : '';
+    unformatted.description = $el.data('description') ? $el.data('description') : '';
 
     title = encodeURIComponent(unformatted.title);
     link = encodeURIComponent(unformatted.link);
     user = encodeURIComponent(unformatted.user);
     prefix = encodeURIComponent(unformatted.prefix);
+    description = encodeURIComponent(unformatted.description);
 }
 
 function trackShareHit(share, postId) {
@@ -62,8 +65,20 @@ var sharing = {
     },
 
     facebook: function( $el ) {
+        var params = [];
+        // Link
+        params.push('u='+link);
+
+        if (title) {
+            params.push('title='+title);
+        }
+
+        if (description) {
+            params.push('description='+description);
+        }
+
         window.open(
-            'http://www.facebook.com/sharer.php?u='+link+'&t='+title,
+            'http://www.facebook.com/sharer.php?'+params.join('&'),
             'facebook',
             windowProps
         );
