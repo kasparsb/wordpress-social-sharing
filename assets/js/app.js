@@ -9,10 +9,13 @@ var unformatted = {
     link: '',
     user: '', // twitter
     prefix: '', // draugiem,
-    description: ''
+    description: '',
+
+    fbdescription: '',
+    fbtitle: ''
 }
 
-var title, link, user, prefix, description, name;
+var title, link, user, prefix, description, name, fbtitle, fbdescription;
 
 function setEvents() {
     $(document).on('click', '.socialsharing__share', function(ev){
@@ -39,11 +42,18 @@ function readParameters($el) {
     unformatted.prefix = $el.data('prefix') ? $el.data('prefix') : '';
     unformatted.description = $el.data('description') ? $el.data('description') : '';
 
+    unformatted.fbtitle = $el.data('fbtitle') ? $el.data('fbtitle') : '';
+    unformatted.fbdescription = $el.data('fbdescription') ? $el.data('fbdescription') : '';
+    
+
     title = encodeURIComponent(unformatted.title);
     link = encodeURIComponent(unformatted.link);
     user = encodeURIComponent(unformatted.user);
     prefix = encodeURIComponent(unformatted.prefix);
     description = encodeURIComponent(unformatted.description);
+
+    fbtitle = encodeURIComponent(unformatted.fbtitle);
+    fbdescription = encodeURIComponent(unformatted.fbdescription);
 }
 
 function trackShareHit(share, postId) {
@@ -68,11 +78,17 @@ var sharing = {
         // Link
         params.push('u='+link);
 
-        if (title) {
+        if (fbtitle) {
+            params.push('title='+fbtitle);
+        }
+        else if (title) {
             params.push('title='+title);
         }
 
-        if (description) {
+        if (fbdescription) {
+            params.push('description='+fbdescription);
+        }
+        else if (description) {
             params.push('description='+description);
         }
 

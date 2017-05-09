@@ -84,7 +84,11 @@ class Plugin extends Base {
             'data-prefix' => '',
             'data-title' => '',
             'data-description' => '',
-            'data-link' => ''
+            'data-link' => '',
+
+            // Iespēja atsevišķi overraidot Facebook title un description
+            'data-fbtitle' => '',
+            'data-fbdescription' => ''
             
         ], $atts, 'socialsharing');
 
